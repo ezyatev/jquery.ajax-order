@@ -1,7 +1,10 @@
 $.fn.extend({
     ajaxOrder: function (options) {
         var defaults = {
-            fields_clear: 'input[type="text"], textarea'
+            fields_clear: 'input[type="text"], textarea',
+            callback: function (data) {
+                alert(data.message);
+            }
         };
         options = $.extend(defaults, options);
 
@@ -18,7 +21,7 @@ $.fn.extend({
                 data: $target.serialize(),
                 success: function (data) {
                     $fields_clear.val('');
-                    alert(data.message);
+                    options.callback(data);
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     alert("Произошла внутренняя ошибка. Пожалуйста перезвоните нам.");
