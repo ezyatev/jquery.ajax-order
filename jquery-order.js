@@ -2,8 +2,11 @@ $.fn.extend({
     ajaxOrder: function (options) {
         var defaults = {
             fields_clear: 'input[type="text"], textarea',
-            callback: function (data) {
+            on_success: function (data) {
                 alert(data.message);
+            },
+            on_error: function () {
+                alert("Произошла внутренняя ошибка. Пожалуйста перезвоните нам.");
             }
         };
         options = $.extend(defaults, options);
@@ -21,10 +24,10 @@ $.fn.extend({
                 data: $target.serialize(),
                 success: function (data) {
                     $fields_clear.val('');
-                    options.callback(data);
+                    options.on_success(data);
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert("Произошла внутренняя ошибка. Пожалуйста перезвоните нам.");
+                    options.on_error();
                 }
             });
         });
