@@ -1,11 +1,12 @@
 $.fn.extend({
     ajaxOrder: function (options) {
         var defaults = {
-            fields_clear: 'input[type="text"], textarea',
-            on_success: function (data) {
+            fieldsClear: 'input[type="text"], textarea',
+            preloaderClass: 'ajax-loading',
+            onSuccess: function (data) {
                 alert(data.message);
             },
-            on_error: function () {
+            onError: function () {
                 alert("Произошла внутренняя ошибка. Пожалуйста перезвоните нам.");
             }
         };
@@ -13,7 +14,8 @@ $.fn.extend({
 
         $(this).on('submit', function (e) {
             var $target = $(e.target),
-                $fields_clear = $target.find(options.fields_clear);
+                $fieldsClear = $target.find(options.fieldsClear),
+                $submitBtn = $target.find("input:submit, button:submit");
 
             e.preventDefault();
 
@@ -22,12 +24,18 @@ $.fn.extend({
                 url: $target.attr('action'),
                 dataType: 'json',
                 data: $target.serialize(),
+                beforeSend: function () {
+                    $submitBtn.addClass(options.preloaderClass);
+                },
                 success: function (data) {
-                    $fields_clear.val('');
-                    options.on_success(data);
+                    $fieldsClear.val('');
+                    options.onSuccess(data);
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    options.on_error();
+                    options.onError();
+                },
+                complete: function () {
+                    $submitBtn.removeClass(options.preloaderClass);
                 }
             });
         });
