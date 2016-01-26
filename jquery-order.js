@@ -3,10 +3,10 @@ $.fn.extend({
         var defaults = {
             fieldsClear: 'input[type="text"], textarea',
             preloaderClass: 'ajax-loading',
-            onSuccess: function (data) {
+            onSuccess: function (target, data) {
                 alert(data.message);
             },
-            onError: function () {
+            onError: function (target) {
                 alert("Произошла внутренняя ошибка. Пожалуйста перезвоните нам.");
             }
         };
@@ -29,10 +29,10 @@ $.fn.extend({
                 },
                 success: function (data) {
                     $fieldsClear.val('');
-                    options.onSuccess(data);
+                    options.onSuccess(e.target, data);
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    options.onError();
+                    options.onError(e.target);
                 },
                 complete: function () {
                     $submitBtn.removeClass(options.preloaderClass);
