@@ -15,7 +15,7 @@ $.fn.extend({
         $(this).on('submit', function (e) {
             var $target = $(e.target),
                 $fieldsClear = $target.find(options.fieldsClear),
-                $submitBtn = $target.find("input:submit, button:submit");
+                $submitBtn = $target.find(":submit");
 
             e.preventDefault();
 
