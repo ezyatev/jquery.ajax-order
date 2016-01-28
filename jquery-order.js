@@ -1,7 +1,7 @@
 $.fn.extend({
     ajaxOrder: function (options) {
         var defaults = {
-            fieldsClear: 'input[type="text"], textarea',
+            fieldsClear: 'input[type="text"], textarea, select',
             preloaderClass: 'ajax-loading',
             onSuccess: function (target, data) {
                 alert(data.message);
